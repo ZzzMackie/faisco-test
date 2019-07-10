@@ -45,11 +45,11 @@ export default {
     },
     showImg() {
         this.isImg = 2;
-        
+        this.$store.commit('changeUrl',this.url)
       
     },
     showInfo () {
-        this.$store.commit('changeUrl',this.url)
+        
         this.$store.commit("setModuleIndex", this.$attrs['data-id']);
         this.$store.commit('changeModuleTab',1)
     }

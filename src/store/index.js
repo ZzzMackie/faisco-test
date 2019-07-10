@@ -28,7 +28,7 @@ const store = new Vuex.Store({
       state.moduleIndex = n;
     },
     changeUrl(state, n) {
-      Vue.set(state.mackieList[n], "url", n);
+      Vue.set(state.mackieList[state.moduleIndex], "url", n);
     }
   }
 });
