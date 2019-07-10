@@ -4,25 +4,31 @@
       <div class="new-list-item-search">
         <div class="search-icon"></div>
       </div>
-      <li class="new-module-list-item" v-for="item in newModuleList" :key="item.id">
-        <div class="new-list-item-title fc-b">{{item.name}}</div>
+      <li
+        class="new-module-list-item"
+        v-for="item in newModuleList"
+        :key="item.id"
+      >
+        <div class="new-list-item-title fc-b">{{ item.name }}</div>
         <ul class="new-list-item-box">
           <li
             class="list-item-box-content"
             v-for="md in item.children"
             :class="md.className"
             :key="md.className"
+            @click="renderModule(md)"
           >
             <div class="module-icon icon"></div>
-            <span class="module-text">{{md.innerText}}</span>
+            <span class="module-text">{{ md.innerText }}</span>
           </li>
         </ul>
       </li>
     </ul>
   </div>
 </template>
- 
+
 <script>
+import { mapState } from "vuex";
 export default {
   name: "MackieNewModuleme",
   props: {
@@ -34,11 +40,16 @@ export default {
     return {
       msg: "Welcome to your vueName"
     };
+  },
+  methods: {
+    renderModule (item) {
+      this.$store.commit('increment',{...item});
+    }
   }
 };
 </script>
- 
-<style scoped lang = "scss">
+
+<style scoped lang="scss">
 ul {
   margin: 0;
 }
@@ -66,8 +77,8 @@ ul {
       border-left-color: transparent;
     }
   }
-  .module-text{
-     font-size: 14px;
+  .module-text {
+    font-size: 14px;
   }
   .module-icon {
     height: 30px;
@@ -77,10 +88,10 @@ ul {
   .text .module-icon {
     background-position: -451px -1201px;
   }
-  .img .module-icon{
+  .img .module-icon {
     background-position: -499px -1201px;
   }
-  .online-input .module-icon{
+  .online-input .module-icon {
     background-position: -597px -1351px;
   }
 }
@@ -106,24 +117,24 @@ ul {
   }
 }
 .new-list-item-box {
-   display: flex;
-   justify-content: flex-start;
-   flex-wrap: wrap;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
   .list-item-box-content {
     display: inline-block;
     margin: 0 10px;
     cursor: pointer;
-    &:hover{
-       color: #5874d8;
+    &:hover {
+      color: #5874d8;
     }
-    &.text:hover .module-icon{
-       background-position: -1379px -138px;
+    &.text:hover .module-icon {
+      background-position: -1379px -138px;
     }
-    &.img:hover .module-icon{
-       background-position: -1427px -138px;
+    &.img:hover .module-icon {
+      background-position: -1427px -138px;
     }
-    &.online-input:hover .module-icon{
-       background-position: -1525px -288px;
+    &.online-input:hover .module-icon {
+      background-position: -1525px -288px;
     }
   }
 }

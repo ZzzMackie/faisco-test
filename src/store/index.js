@@ -1,31 +1,25 @@
-import Vuex from 'vuex'
-
+import Vuex from "vuex";
+import Vue from "vue";
+Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
-        newModuleList: [{
-                name: '常用',
-                id: 101,
-                children: [{
-                        id: 1011,
-                        className: 'text',
-                        innerText: '文本'
-                    },
-                    {
-                        id: 1012,
-                        className: 'img',
-                        innerText: '图片'
-                    }
-                ]
-            },
-            {
-                name: '互动',
-                id: 102,
-                children: [{
-                    id: 1021,
-                    className: 'online-input',
-                    innerText: '在线表单'
-                }]
-            }
-        ]
+        mackieList: [],
+        activeIndex: 0
     },
-})
+    mutations: {
+        increment(state, n) { //添加模块
+            // Vue.set(state.mackieList, n);
+            state.mackieList.push(n);
+        },
+        deleted(state, n) { //删除模块
+            state.mackieList.splice(n, 1);
+        },
+        show(state, n) { //显示/隐藏模块
+            Vue.set(state.mackieList[n], 'isShow', !state.mackieList[n].isShow);
+        },
+        changeModuleTab(state, n) {
+            state.activeIndex = n;
+        }
+    }
+});
+export default store;
