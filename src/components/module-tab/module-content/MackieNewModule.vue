@@ -4,11 +4,7 @@
       <div class="new-list-item-search">
         <div class="search-icon"></div>
       </div>
-      <li
-        class="new-module-list-item"
-        v-for="item in newModuleList"
-        :key="item.id"
-      >
+      <li class="new-module-list-item" v-for="item in newModuleList" :key="item.id">
         <div class="new-list-item-title fc-b">{{ item.name }}</div>
         <ul class="new-list-item-box">
           <li
@@ -28,7 +24,6 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 export default {
   name: "MackieNewModuleme",
   props: {
@@ -42,8 +37,8 @@ export default {
     };
   },
   methods: {
-    renderModule (item) {
-      this.$store.commit('increment',{...item});
+    renderModule(item) {
+      this.$store.commit("increment", { ...item });
     }
   }
 };

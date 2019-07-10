@@ -45,6 +45,7 @@ export default {
   },
   methods: {
       showInfo () {
+        this.$store.commit("setModuleIndex", this.$attrs['data-id']);
         this.$store.commit('changeModuleTab',1)
     }
   }

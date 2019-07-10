@@ -1,8 +1,6 @@
 <template>
   <div class="mackie-text" @click="showInfo">
-    <div class="mk-text-duoble" v-if="isInput" @dblclick="input">
-      双击输入内容...
-    </div>
+    <div class="mk-text-duoble" v-if="isInput" @dblclick="input">双击输入内容...</div>
     <input type="text" v-else class="mk-text-input" />
   </div>
 </template>
@@ -19,8 +17,10 @@ export default {
     input() {
       this.isInput = false;
     },
-    showInfo () {
-        this.$store.commit('changeModuleTab',1)
+    showInfo() {
+      this.$store.commit("setModuleIndex", this.$attrs['data-id']);
+      this.$store.commit("changeModuleTab", 1);
+      
     }
   }
 };
@@ -39,6 +39,7 @@ export default {
   .mk-text-input {
     width: 150px;
     height: 40px;
+    font-size: 16px;
     line-height: 40px;
     display: inline-block;
   }

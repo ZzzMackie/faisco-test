@@ -1,17 +1,18 @@
 <template>
-  <div class="">
-    Information
+  <div class="mackie-infomation">
+    {{mackieList[moduleIndex]}}
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   name: "MackieInformationModule",
   data() {
     return {
-      msg: "Welcome to your vueName"
     };
-  }
+  },
+  computed:mapState(['moduleIndex','mackieList'])
 };
 </script>
 

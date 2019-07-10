@@ -1,26 +1,21 @@
 <template>
   <div class="mackie-module">
     <div class="mk-module-top-tab">
-      <div class="top-tab-box"><i class="icon tab-box-icon"></i></div>
+      <div class="top-tab-box">
+        <i class="icon tab-box-icon"></i>
+      </div>
       <ul class="top-tab-list">
         <li
           :class="{ 'tab-list-item': true, active: index === activeIndex }"
           v-for="(item, index) in tabList"
           :key="index"
           @click="changeTab(index)"
-        >
-          {{ item }}
-        </li>
+        >{{ item }}</li>
       </ul>
       <div class="top-tab-close" @click="closeModule">X</div>
     </div>
-    <mackie-new-module
-      v-show="activeIndex === 0"
-      :newModuleList="newModuleList"
-    ></mackie-new-module>
-    <mackie-information-module
-      v-show="activeIndex === 1"
-    ></mackie-information-module>
+    <mackie-new-module v-show="activeIndex === 0" :newModuleList="newModuleList"></mackie-new-module>
+    <mackie-information-module v-show="activeIndex === 1"></mackie-information-module>
     <mackie-now-module v-show="activeIndex === 2"></mackie-now-module>
   </div>
 </template>
@@ -29,7 +24,7 @@
 import MackieNewModule from "@/components/module-tab/module-content/MackieNewModule";
 import MackieNowModule from "@/components/module-tab/module-content/MackieNowModule";
 import MackieInformationModule from "@/components/module-tab/module-content/MackieInformationModule";
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
   name: "MackieModuleTab",
@@ -48,17 +43,31 @@ export default {
           children: [
             {
               id: 1011,
-              compName: 'MackieText',
+              w: 150,
+              h: 40,
+              l: 0,
+              t: 0,
+              z: 0,
+              fs: 16,
+              tx: '',
+              fc: 'ccc',
+              compName: "MackieText",
               className: "text",
               innerText: "文本",
-              isShow:true
+              isShow: true
             },
             {
               id: 1012,
-              compName: 'MackieImg',
+              w: 150,
+              h: 40,
+              l: 0,
+              t: 0,
+              z: 0,
+              url: '',
+              compName: "MackieImg",
               className: "img",
               innerText: "图片",
-              isShow:true
+              isShow: true
             }
           ]
         },
@@ -68,21 +77,25 @@ export default {
           children: [
             {
               id: 1021,
-              compName: 'MackieOnlineInput',
+              w: 150,
+              h: 40,
+              l: 0,
+              t: 0,
+              z: 0,
+              compName: "MackieOnlineInput",
               className: "online-input",
               innerText: "在线表单",
-              isShow:true
+              isShow: true
             }
           ]
         }
       ]
     };
   },
-  computed: mapState(['activeIndex'])
-  ,
+  computed: mapState(["activeIndex"]),
   methods: {
     changeTab(index) {
-      this.$store.commit('changeModuleTab',index)
+      this.$store.commit("changeModuleTab", index);
       // this.$bus.$activeIndex = this.activeIndex = index;
     },
     closeModule() {

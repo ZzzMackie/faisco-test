@@ -1,12 +1,16 @@
 <template>
   <div class="mackie-module-container">
     <div class="mk-container-add-module" v-if="mackieList.length === 0 " @click="addModule">添加模块</div>
-    <component :is="item.compName" v-for="(item,index) in mackieList" :key="index" v-show="item.isShow">
-      <template v-show="item.isShow">
+    <component
+      :is="item.compName"
+      v-for="(item,index) in mackieList"
+      :key="index"
+      v-show="item.isShow"
+      :data-id="index"
+    >
         <mackie-text></mackie-text>
         <mackie-img></mackie-img>
         <mackie-online-input></mackie-online-input>
-      </template>
     </component>
   </div>
 </template>

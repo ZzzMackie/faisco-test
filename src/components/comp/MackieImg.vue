@@ -44,15 +44,13 @@ export default {
       this.isImg = 0;
     },
     showImg() {
-      const $_img = document.getElementById("mackie");
-      if (window.getComputedStyle($_img).width < 500) {
         this.isImg = 2;
-      } else {
-        alert("图片太大了！！小姐姐");
-        this.isImg = 0;
-      }
+        
+      
     },
     showInfo () {
+        this.$store.commit('changeUrl',this.url)
+        this.$store.commit("setModuleIndex", this.$attrs['data-id']);
         this.$store.commit('changeModuleTab',1)
     }
   }
@@ -62,6 +60,9 @@ export default {
 <style scoped lang="scss">
 $box: border-box;
 $border: 1px solid #ccc;
+#mackie{
+    width: 500px;
+}
 .mackie-img {
   position: absolute;
   .mk-add-img {
@@ -97,6 +98,7 @@ $border: 1px solid #ccc;
   }
   .mk-dialog-img {
     position: fixed;
+    z-index: 3;
     top: 50%;
     left: 50%;
     transform: translate(-175px, -125px);

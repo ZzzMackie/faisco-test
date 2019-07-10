@@ -5,7 +5,10 @@
       <li class="mk-now-list-item" v-for="(item, index) in mackieList" :key="index">
         <div class="mk-now-list-item-text">{{item.innerText}}</div>
         <div class="mk-now-list-item-control">
-          <div  :class="{ 'now-item-show-icon': true,'icon': true, active: item.isShow }" @click="isShowModule(index)"></div>
+          <div
+            :class="{ 'now-item-show-icon': true,'icon': true, active: item.isShow }"
+            @click="isShowModule(index)"
+          ></div>
           <div class="now-item-delete-icon icon" @click="deleteModule(index)"></div>
         </div>
       </li>
@@ -22,18 +25,18 @@ export default {
   },
   computed: mapState(["mackieList"]),
   methods: {
-    deleteModule (index) {
-      this.$store.commit('deleted',index);
+    deleteModule(index) {
+      this.$store.commit("deleted", index);
     },
     isShowModule(index) {
-      this.$store.commit('show',index)
+      this.$store.commit("show", index);
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.mackie-now-module{
+.mackie-now-module {
   overflow-y: scroll;
   height: 430px;
   margin-right: -20px;
@@ -51,7 +54,7 @@ export default {
   box-sizing: border-box;
   border-radius: 5px;
   border: 1px solid #ccc;
-  .mk-now-list-item-control{
+  .mk-now-list-item-control {
     text-align: center;
   }
   .now-item-show-icon {
@@ -62,10 +65,10 @@ export default {
     width: 15px;
     height: 10px;
     background-position: -690px -588px;
-    
+
     cursor: pointer;
-    &.active{
-     background-position: -627px -586px;
+    &.active {
+      background-position: -627px -586px;
     }
   }
   .now-item-delete-icon {
