@@ -31,7 +31,7 @@ const store = new Vuex.Store({
       Vue.set(state.mackieList[state.moduleIndex], "url", n);
     },
     changeValue(state, n) {
-      state.mackieList[state.moduleIndex].info = n ;
+      state.mackieList[state.moduleIndex].info = n;
     }
   }
 });

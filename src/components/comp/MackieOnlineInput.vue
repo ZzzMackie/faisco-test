@@ -37,6 +37,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import $ from "jquery";
 export default {
   name: "MackieOnlineInput",
   data() {
@@ -47,6 +48,7 @@ export default {
   computed:mapState(['moduleIndex','mackieList']),
   created() {
     this.index = this.$attrs['data-id'];
+    
   },
   methods: {
       showInfo () {

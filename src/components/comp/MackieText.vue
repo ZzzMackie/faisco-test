@@ -1,12 +1,24 @@
 <template>
-  <div class="mackie-text" @click="showInfo" :style="{top: `${mackieList[index].info.t}px`,left:`${mackieList[index].info.l}px`,zIndex:`${mackieList[index].info.z}`}">
+  <div
+    class="mackie-text"
+    @click="showInfo"
+    :style="{top: `${mackieList[index].info.t}px`,left:`${mackieList[index].info.l}px`,zIndex:`${mackieList[index].info.z}`}"
+  >
     <div class="mk-text-duoble" v-if="isInput" @dblclick="input">双击输入内容...</div>
-    <input type="text" v-else class="mk-text-input" :style="{width: `${mackieList[index].info.w}px`,heigth: `${mackieList[index].info.h}px`}"/>
+    <input
+      type="text"
+      v-else
+      class="mk-text-input"
+      :style="{width: `${mackieList[index].info.w}px`,heigth: `${mackieList[index].info.h}px`}"
+    />
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
+import $ from "jquery";
+import "jquery-ui/ui/widgets/draggable";
+import "jquery-ui/ui/widgets/droppable";
 export default {
   name: "MackieText",
   data() {
@@ -15,18 +27,17 @@ export default {
       index: 0
     };
   },
-  computed:mapState(['moduleIndex','mackieList']),
+  computed: mapState(["moduleIndex", "mackieList"]),
   created() {
-    this.index = this.$attrs['data-id'];
+    this.index = this.$attrs["data-id"];
   },
   methods: {
     input() {
       this.isInput = false;
     },
     showInfo() {
-      this.$store.commit("setModuleIndex", this.$attrs['data-id']);
+      this.$store.commit("setModuleIndex", this.$attrs["data-id"]);
       this.$store.commit("changeModuleTab", 1);
-      
     }
   }
 };
