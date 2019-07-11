@@ -9,14 +9,14 @@
       <mackie-container :isAdd="isAdd" @onshow="showModule" />
     </div>
     <mackie-module-tab v-show="isAdd" :isAdd="isAdd" @onchange="changeShow"></mackie-module-tab>
-    <a href="javascript:void(0);" class="mk-container-save-btn">保存</a>
+    <a href="javascript:void(0);" class="mk-container-save-btn" @click="onSave">保存</a>
   </div>
 </template>
 
 <script>
 import MackieModuleTab from "@/components/module-tab/MackieModuleTab";
 import MackieContainer from "@/components/comp/MackieContainer";
-
+import { mapState } from 'vuex';
 export default {
   name: "MackieIndex",
   data() {
@@ -24,6 +24,7 @@ export default {
       isAdd: false
     };
   },
+  computed: mapState(['mackieList']),
   components: {
     MackieModuleTab,
     MackieContainer
@@ -37,6 +38,9 @@ export default {
     },
     showModule() {
       this.isAdd = true;
+    },
+    onSave() {
+      console.log(JSON.stringify(this.mackieList))
     }
   }
 };

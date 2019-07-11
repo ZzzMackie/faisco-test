@@ -12,7 +12,7 @@
             v-for="md in item.children"
             :class="md.className"
             :key="md.className"
-            @click="renderModule(md)"
+            @mousedown="addModule(md,$event)"
           >
             <div class="module-icon icon"></div>
             <span class="module-text">{{ md.innerText }}</span>
@@ -37,8 +37,38 @@ export default {
     };
   },
   methods: {
-    renderModule(item) {
-      this.$store.commit("increment", { ...item });
+    move(e) {
+      this.containerX = document.getElementsByClassName('mk-container-content')[0].offsetLeft;
+    this.containerY = document.getElementsByClassName('mk-container-content')[0].offsetTop;
+      this.nowX = e.clientX;
+      this.nowY = e.clientY;
+      this.disX = this.nowX - this.oX;
+      this.disY = this.nowY - this.oY;
+      this.$div.style.top =`${this.nowY}px`;
+      this.$div.style.left =`${this.nowX}px`;
+    },
+    addModule(item,e) {
+      const self = this;
+      this.item = {...item}
+      this.oX = e.clientX;
+      this.oY = e.clientY;
+      this.$div = document.createElement('div');
+      this.$div.style.width = '50px';
+      this.$div.style.height = '50px';
+      this.$div.style.background = 'red';
+      this.$div.style.position = 'fixed';
+      this.$div.style.zIndex = '99';
+      e.target.appendChild(this.$div)
+      document.addEventListener('mousemove',this.move)
+      document.addEventListener('mouseup', function () {
+        document.removeEventListener('mousemove',self.move)
+        if(self.nowX >= self.containerX && self.nowY >= self.containerY){
+          self.$store.commit("increment", self.item);
+        }else if (self.disX <= 5 && self.disY <= 5 ){
+          self.$store.commit("increment", self.item);
+        }
+        self.$div && e.target.removeChild(self.$div)
+      })
     }
   }
 };
@@ -76,6 +106,7 @@ ul {
     font-size: 14px;
   }
   .module-icon {
+    position: relative;
     height: 30px;
     width: 37px;
     margin: 16px auto 5px auto;

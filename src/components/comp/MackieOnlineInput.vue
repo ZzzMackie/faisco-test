@@ -1,5 +1,5 @@
 <template>
-  <div class="mackie-online-input" @click="showInfo">
+  <div class="mackie-online-input" @click="showInfo" :style="{top: `${mackieList[index].info.t}px`, height: `${mackieList[index].info.h}px`,width: `${mackieList[index].info.w}px`,left:`${mackieList[index].info.l}px`,zIndex:`${mackieList[moduleIndex].info.z}`}">
     <div class="mk-o-input-title">信息调查</div>
     <div class="mk-o-input-form">
       <span>姓名:</span>
@@ -36,15 +36,21 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   name: "MackieOnlineInput",
   data() {
     return {
-      msg: "Welcome to your vueName"
+      index: 0
     };
+  },
+  computed:mapState(['moduleIndex','mackieList']),
+  created() {
+    this.index = this.$attrs['data-id'];
   },
   methods: {
       showInfo () {
+        
         this.$store.commit("setModuleIndex", this.$attrs['data-id']);
         this.$store.commit('changeModuleTab',1)
     }

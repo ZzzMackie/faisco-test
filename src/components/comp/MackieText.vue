@@ -1,17 +1,23 @@
 <template>
-  <div class="mackie-text" @click="showInfo">
+  <div class="mackie-text" @click="showInfo" :style="{top: `${mackieList[index].info.t}px`,left:`${mackieList[index].info.l}px`,zIndex:`${mackieList[index].info.z}`}">
     <div class="mk-text-duoble" v-if="isInput" @dblclick="input">双击输入内容...</div>
-    <input type="text" v-else class="mk-text-input" />
+    <input type="text" v-else class="mk-text-input" :style="{width: `${mackieList[index].info.w}px`,heigth: `${mackieList[index].info.h}px`}"/>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   name: "MackieText",
   data() {
     return {
-      isInput: true
+      isInput: true,
+      index: 0
     };
+  },
+  computed:mapState(['moduleIndex','mackieList']),
+  created() {
+    this.index = this.$attrs['data-id'];
   },
   methods: {
     input() {

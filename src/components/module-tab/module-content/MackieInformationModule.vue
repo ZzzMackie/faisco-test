@@ -5,16 +5,16 @@
       <span >{{mackieList[moduleIndex].innerText + '模块'}}</span>
     </div>
     <ul class="mk-info-list">
-      <li class="mk-info-list-item"><label >模块宽度：</label><input type="text" :value="mackieList[moduleIndex].w"></li>
-      <li class="mk-info-list-item"><label >模块高度：</label><input type="text" :value="mackieList[moduleIndex].h"></li>
-      <li class="mk-info-list-item"><label >模块左距：</label><input type="text" :value="mackieList[moduleIndex].l"></li>
-      <li class="mk-info-list-item"><label >模块顶距：</label><input type="text" :value="mackieList[moduleIndex].t"></li>
-      <li class="mk-info-list-item"><label >模块层级：</label><input type="text" :value="mackieList[moduleIndex].z"></li>
-      <li class="mk-info-list-item item-url" v-if="mackieList[moduleIndex].url !== undefined"><label >图片链接：</label><input type="text" :value="mackieList[moduleIndex].url"></li>
-      <li class="mk-info-list-item" v-if="mackieList[moduleIndex].itx !== undefined"><label >用户提交信息：</label><input type="text" :value="mackieList[moduleIndex].itx"></li>
-      <li class="mk-info-list-item" v-if="mackieList[moduleIndex].fs !== undefined"><label >文本字号：</label><input type="text" :value="mackieList[moduleIndex].fs"></li>
-      <li class="mk-info-list-item item-text" v-if="mackieList[moduleIndex].tx !== undefined"><label >文本内容：</label><input type="text" :value="mackieList[moduleIndex].tx"></li>
-      <li class="mk-info-list-item" v-if="mackieList[moduleIndex].fc !== undefined"><label >文本颜色：</label><div class="color-box" :style="{ background: mackieList[moduleIndex].fc}"></div></li>
+      <li class="mk-info-list-item"><label >模块宽度：</label><input type="number" v-model="mackieList[moduleIndex].info.w" @input="changeInfo"></li>
+      <li class="mk-info-list-item"><label >模块高度：</label><input type="number" v-model="mackieList[moduleIndex].info.h" @input="changeInfo"></li>
+      <li class="mk-info-list-item"><label >模块左距：</label><input type="number" v-model="mackieList[moduleIndex].info.l" @input="changeInfo"></li>
+      <li class="mk-info-list-item"><label >模块顶距：</label><input type="number" v-model="mackieList[moduleIndex].info.t" @input="changeInfo"></li>
+      <li class="mk-info-list-item"><label >模块层级：</label><input type="number" v-model="mackieList[moduleIndex].info.z" @input="changeInfo"></li>
+      <li class="mk-info-list-item item-url" v-if="mackieList[moduleIndex].info.url !== undefined"><label >图片链接：</label><input type="text" v-model="mackieList[moduleIndex].info.url" @input="changeInfo"></li>
+      <li class="mk-info-list-item" v-if="mackieList[moduleIndex].info.itx !== undefined"><label >用户提交信息：</label><input type="text" v-model="mackieList[moduleIndex].info.itx" @input="changeInfo"></li>
+      <li class="mk-info-list-item" v-if="mackieList[moduleIndex].info.fs !== undefined"><label >文本字号：</label><input type="text" v-model="mackieList[moduleIndex].info.fs" @input="changeInfo"></li>
+      <li class="mk-info-list-item item-text" v-if="mackieList[moduleIndex].info.tx !== undefined"><label >文本内容：</label><input type="text" v-model="mackieList[moduleIndex].info.tx" @input="changeInfo"></li>
+      <li class="mk-info-list-item" v-if="mackieList[moduleIndex].info.fc !== undefined"><label >文本颜色：</label><div class="color-box" :style="{ background: info.fc}"></div></li>
     </ul>
   </div>
 </template>
@@ -25,9 +25,15 @@ export default {
   name: "MackieInformationModule",
   data() {
     return {
+      info: {}
     };
   },
-  computed:mapState(['moduleIndex','mackieList'])
+  computed:mapState(['moduleIndex','mackieList']),
+  methods: {
+    changeInfo() {
+      this.$store.commit('changeValue',{...this.mackieList[this.moduleIndex].info})
+    }
+  }
 };
 </script>
 

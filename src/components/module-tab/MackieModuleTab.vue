@@ -43,14 +43,16 @@ export default {
           children: [
             {
               id: 1011,
-              w: 150,
-              h: 40,
-              l: 0,
-              t: 0,
-              z: 0,
-              fs: 16,
-              tx: '',
-              fc: '#ccc',
+              info: {
+                w: 150,
+                h: 40,
+                l: 0,
+                t: 0,
+                z: 0,
+                fs: 16,
+                tx: "",
+                fc: "#ccc"
+              },
               compName: "MackieText",
               className: "text",
               innerText: "文本",
@@ -58,12 +60,14 @@ export default {
             },
             {
               id: 1012,
-              w: 500,
-              h: 40,
-              l: 0,
-              t: 0,
-              z: 0,
-              url: '',
+              info: {
+                w: 500,
+                h: 40,
+                l: 0,
+                t: 0,
+                z: 0,
+                url: ""
+              },
               compName: "MackieImg",
               className: "img",
               innerText: "图片",
@@ -77,12 +81,14 @@ export default {
           children: [
             {
               id: 1021,
-              w: 150,
-              h: 40,
-              l: 0,
-              t: 0,
-              z: 0,
-              itx:'',
+              info: {
+                w: 200,
+                h: 350,
+                l: 0,
+                t: 0,
+                z: 0,
+                itx: ""
+              },
               compName: "MackieOnlineInput",
               className: "online-input",
               innerText: "在线表单",

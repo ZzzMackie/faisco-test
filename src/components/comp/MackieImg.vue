@@ -1,5 +1,5 @@
 <template>
-  <div class="mackie-img" @click="showInfo">
+  <div class="mackie-img" @click="showInfo" :style="{top: `${mackieList[index].info.t}px`,left:`${mackieList[index].info.l}px`,zIndex:`${mackieList[index].info.z}`}">
     <div class="mk-add-img" v-if="isImg === 0" @dblclick="onImg">
       <div class="mk-add-img-icon"></div>
       <p>添加图片</p>
@@ -23,18 +23,24 @@
       </div>
       <div class="mk-dialog-img-confrim" @click="showImg">确认</div>
     </div>
-    <img :src="url" alt="我是图片哦" v-show="isImg === 2" id="mackie" />
+    <img :src="url" alt="我是图片哦" v-show="isImg === 2" id="mackie" :style="{width: `${mackieList[index].info.w}px`,heigth: `${mackieList[index].info.h}px`}" />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   name: "MackieImg",
   data() {
     return {
       isImg: 0,
-      url: null
+      url: null,
+      index:0
     };
+  },
+  computed:mapState(['moduleIndex','mackieList']),
+  created() {
+    this.index = this.$attrs['data-id'];
   },
   methods: {
     onImg() {
@@ -49,7 +55,7 @@ export default {
       
     },
     showInfo () {
-        
+        console.log(this.moduleIndex)
         this.$store.commit("setModuleIndex", this.$attrs['data-id']);
         this.$store.commit('changeModuleTab',1)
     }

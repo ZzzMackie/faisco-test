@@ -5,7 +5,7 @@ const store = new Vuex.Store({
   state: {
     mackieList: [],
     activeIndex: 0,
-    moduleIndex: null
+    moduleIndex: 0
   },
   mutations: {
     increment(state, n) {
@@ -29,6 +29,9 @@ const store = new Vuex.Store({
     },
     changeUrl(state, n) {
       Vue.set(state.mackieList[state.moduleIndex], "url", n);
+    },
+    changeValue(state, n) {
+      state.mackieList[state.moduleIndex].info = n ;
     }
   }
 });
