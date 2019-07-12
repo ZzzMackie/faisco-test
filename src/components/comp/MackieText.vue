@@ -45,6 +45,7 @@ export default {
       cursor: "pointer",
       opacity: 0.5,
       drag: function(event, ui) {
+        self.$store.commit('changeValue',{...self.mackieList[self.index].info})
        self.$store.commit("changeLeft", ui.position.left);
         self.$store.commit("changeTop", ui.position.top);
       },

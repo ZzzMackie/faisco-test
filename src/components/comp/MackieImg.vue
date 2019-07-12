@@ -71,7 +71,7 @@ export default {
       cursor: "pointer",
       opacity: 0.5,
       drag: function(event, ui) {
-        
+        self.$store.commit('changeValue',{...self.mackieList[self.index].info})
         self.$store.commit("changeLeft", ui.position.left);
         self.$store.commit("changeTop", ui.position.top);
       },
@@ -100,6 +100,7 @@ export default {
       this.$store.commit("changeModuleTab", 1);
     },
     changeInfo() {
+      
       this.$store.commit('changeValue',{...this.mackieList[this.index].info})
     },
     changeUrl(item) {
