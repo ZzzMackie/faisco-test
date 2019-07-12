@@ -58,16 +58,17 @@ export default {
       this.$div.style.background = 'red';
       this.$div.style.position = 'fixed';
       this.$div.style.zIndex = '99';
+      
       e.target.appendChild(this.$div)
       document.addEventListener('mousemove',this.move)
-      document.addEventListener('mouseup', function () {
+      e.target.addEventListener('mouseup', function (e) {
         document.removeEventListener('mousemove',self.move)
         if(self.nowX >= self.containerX && self.nowY >= self.containerY){
           self.$store.commit("increment", self.item);
         }else if (self.disX <= 5 && self.disY <= 5 ){
           self.$store.commit("increment", self.item);
         }
-        self.$div && e.target.removeChild(self.$div)
+        self.$div.remove()
       })
     }
   }

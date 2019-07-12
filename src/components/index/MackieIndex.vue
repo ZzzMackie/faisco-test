@@ -6,9 +6,9 @@
       @click="addModule"
     >模块</a>
     <div class="mk-container-content modulex-box">
-      <mackie-container :isAdd="isAdd" @onshow="showModule" />
+      <mackie-container  />
     </div>
-    <mackie-module-tab v-show="isAdd" :isAdd="isAdd" @onchange="changeShow"></mackie-module-tab>
+    <mackie-module-tab v-show="isAdd"></mackie-module-tab>
     <a href="javascript:void(0);" class="mk-container-save-btn" @click="onSave">保存</a>
   </div>
 </template>
@@ -21,23 +21,17 @@ export default {
   name: "MackieIndex",
   data() {
     return {
-      isAdd: false
+      
     };
   },
-  computed: mapState(['mackieList']),
+  computed: mapState(['mackieList','isAdd']),
   components: {
     MackieModuleTab,
     MackieContainer
   },
   methods: {
     addModule() {
-      this.isAdd = true;
-    },
-    changeShow() {
-      this.isAdd = false;
-    },
-    showModule() {
-      this.isAdd = true;
+      this.$store.commit("isShowModule", true);
     },
     onSave() {
       console.log(JSON.stringify(this.mackieList))

@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     addModule() {
-      this.$emit("onshow");
+      this.$store.commit("isShowModule", true);
     }
   }
 };

@@ -87,7 +87,7 @@ export default {
                 l: 0,
                 t: 0,
                 z: 0,
-                itx: ""
+                inputInfo:{},
               },
               compName: "MackieOnlineInput",
               className: "online-input",
@@ -106,7 +106,7 @@ export default {
       // this.$bus.$activeIndex = this.activeIndex = index;
     },
     closeModule() {
-      this.$emit("onchange");
+      this.$store.commit("isShowModule", false);
     }
   },
   components: {
