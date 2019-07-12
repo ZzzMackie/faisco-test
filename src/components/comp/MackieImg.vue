@@ -38,6 +38,7 @@
       v-show="isImg === 2"
       id="mackie"
       :style="{width: `${mackieList[index].info.w}px`,heigth: `${mackieList[index].info.h}px`}"
+      @dblclick="onImg"
     />
   </div>
 </template>

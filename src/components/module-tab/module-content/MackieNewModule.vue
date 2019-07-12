@@ -12,7 +12,8 @@
             v-for="md in item.children"
             :class="md.className"
             :key="md.className"
-            @mousedown="addModule(md,$event)"
+            @dblclick="renderModule(md)"
+            @mousedown.stop="addModule(md, $event)"
           >
             <div class="module-icon icon"></div>
             <span class="module-text">{{ md.innerText }}</span>
@@ -24,6 +25,7 @@
 </template>
 
 <script>
+import { setTimeout, clearTimeout } from "timers";
 export default {
   name: "MackieNewModuleme",
   props: {
@@ -33,43 +35,75 @@ export default {
   },
   data() {
     return {
-      msg: "Welcome to your vueName"
+      flag: false
     };
   },
   methods: {
     move(e) {
-      this.containerX = document.getElementsByClassName('mk-container-content')[0].offsetLeft;
-    this.containerY = document.getElementsByClassName('mk-container-content')[0].offsetTop;
+      this.containerX = document.getElementsByClassName(
+        "mk-container-content"
+      )[0].offsetLeft;
+      this.containerY = document.getElementsByClassName(
+        "mk-container-content"
+      )[0].offsetTop;
       this.nowX = e.clientX;
       this.nowY = e.clientY;
+      this.nowOX = e.offsetX;
+      this.nowOY = e.offsetY;
+      this.disOX = this.nowOX - this.offsetX;
+      this.disOY = this.nowOY - this.offsetY;
       this.disX = this.nowX - this.oX;
       this.disY = this.nowY - this.oY;
-      this.$div.style.top =`${this.nowY}px`;
-      this.$div.style.left =`${this.nowX}px`;
+      this.$div.style.top = `${this.nowY}px`;
+      this.$div.style.left = `${this.nowX}px`;
     },
-    addModule(item,e) {
+    renderModule(item) {
+      debugger;
+      this.$store.commit("increment", { ...item });
+    },
+    debounce(func, wait) {
+      //防抖
+      let timer = null;
+      return function(...args) {
+        if (!timer) {
+          func.apply(null, args);
+          timer = setTimeout(function() {
+            timer = null;
+          }, wait);
+        }
+      };
+    },
+    addModule(item, e) {
       const self = this;
-      this.item = {...item}
+      this.item = { ...item };
       this.oX = e.clientX;
       this.oY = e.clientY;
-      this.$div = document.createElement('div');
-      this.$div.style.width = '50px';
-      this.$div.style.height = '50px';
-      this.$div.style.background = 'red';
-      this.$div.style.position = 'fixed';
-      this.$div.style.zIndex = '99';
-      
-      e.target.appendChild(this.$div)
-      document.addEventListener('mousemove',this.move)
-      e.target.addEventListener('mouseup', function (e) {
-        document.removeEventListener('mousemove',self.move)
-        if(self.nowX >= self.containerX && self.nowY >= self.containerY){
-          self.$store.commit("increment", self.item);
-        }else if (self.disX <= 5 && self.disY <= 5 ){
+      this.offsetX = e.offsetX;
+      this.offsetY = e.offsetY;
+
+      this.timer = setTimeout(function() {
+        self.$div = document.createElement("div");
+        self.$div.style.width = "50px";
+        self.$div.style.height = "50px";
+        self.$div.style.background = "red";
+        self.$div.style.position = "fixed";
+        self.$div.style.zIndex = "99";
+        e.target.appendChild(self.$div);
+      }, 1000);
+
+      document.addEventListener("mousemove", this.move);
+      e.target.addEventListener("mouseup", function() {
+        if (
+          self.nowX >= self.containerX &&
+          self.nowY >= self.containerY &&
+          self.disX !== undefined && self.$div
+        ) {
           self.$store.commit("increment", self.item);
         }
-        self.$div.remove()
-      })
+        clearTimeout(self.timer)
+        self.$div.remove();
+        document.removeEventListener("mousemove", self.move);
+      });
     }
   }
 };
