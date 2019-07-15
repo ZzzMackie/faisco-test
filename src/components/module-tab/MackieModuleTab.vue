@@ -51,7 +51,8 @@ export default {
                 z: 0,
                 fs: 16,
                 tx: "",
-                fc: "#ccc"
+                fc: "#ccc",
+                isInput: true
               },
               compName: "MackieText",
               className: "text",
@@ -61,12 +62,13 @@ export default {
             {
               id: 1012,
               info: {
-                w: 500,
-                h: 40,
+                w: 100,
+                h: 100,
                 l: 0,
                 t: 0,
                 z: 0,
-                url: ""
+                url: "",
+                isImg:0
               },
               compName: "MackieImg",
               className: "img",

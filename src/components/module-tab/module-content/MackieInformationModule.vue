@@ -49,6 +49,7 @@
             type="text"
             v-model="mackieList[moduleIndex].info.url"
             @input="changeInfo"
+            @change="changeImgInput"
           ></textarea>
         </li>
         <li class="mk-info-list-item" v-if="mackieList[moduleIndex].info.inputInfo !== undefined">
@@ -76,6 +77,7 @@
             type="text"
             v-model="mackieList[moduleIndex].info.tx"
             @input="changeInfo"
+            @change="changeInput"
           ></textarea>
         </li>
         <li class="mk-info-list-item" v-if="mackieList[moduleIndex].info.fc !== undefined">
@@ -105,6 +107,7 @@
 
 <script>
 import { mapState } from "vuex";
+import { clearTimeout, setTimeout } from "timers";
 export default {
   name: "MackieInformationModule",
   data() {
@@ -126,7 +129,9 @@ export default {
         "rgb(43, 43, 43)"
       ],
       isShowModuleInfo: false,
-      isShowModuleColor: false
+      isShowModuleColor: false,
+      index: 0,
+      timer: null
     };
   },
   computed: mapState(["moduleIndex", "mackieList"]),
@@ -135,6 +140,43 @@ export default {
       this.$store.commit("changeValue", {
         ...this.mackieList[this.moduleIndex].info
       });
+      if (this.mackieList[this.moduleIndex].info.url) {
+        console.log('1')
+        this.$store.commit("isShowImg", 2);
+      }
+      if (this.mackieList[this.moduleIndex].info.tx) {
+        this.$store.commit("isShowInput", false);
+      }
+      this.index = this.$attrs["data-id"];
+    },
+    changeImgInput() {
+      if (this.timer) {
+        clearTimeout(this.timer);
+      } else {
+        this.timer = setTimeout(() => {
+          this.$store.commit("changeValue", {
+            ...this.mackieList[this.index].info
+          });
+        }, 200);
+      }
+
+      if (!this.mackieList[this.moduleIndex].info.url) {
+        this.$store.commit("isShowImg", 0);
+      }
+    },
+    changeInput() {
+      if (this.timer) {
+        clearTimeout(this.timer);
+      } else {
+        this.timer = setTimeout(() => {
+          this.$store.commit("changeValue", {
+            ...this.mackieList[this.index].info
+          });
+        }, 200);
+      }
+      if (this.mackieList[this.moduleIndex].info.tx) {
+        this.$store.commit("isShowInput", false);
+      }
     },
     showModuleInfo() {
       this.isShowModuleInfo = true;
@@ -279,8 +321,8 @@ export default {
   height: 50px;
   box-sizing: border-box;
   line-height: 50px;
-      padding: 0 20px;
-      border-radius: 5px;
-          font-size: 14px;
+  padding: 0 20px;
+  border-radius: 5px;
+  font-size: 14px;
 }
 </style>

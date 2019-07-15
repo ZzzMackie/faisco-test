@@ -2,12 +2,12 @@
   <div
     class="mackie-text"
     :class="this.text"
-    @click="showInfo"
+    @mousedown="showInfo"
     :style="{top: `${mackieList[index].info.t}px`,left:`${mackieList[index].info.l}px`,zIndex:`${mackieList[index].info.z}`}"
   >
     <div 
     class="mk-text-duoble" 
-    v-if="isInput" 
+    v-if="mackieList[index].info.isInput" 
     @dblclick="input"
     :style="{width: `${mackieList[index].info.w}px`,height: `${mackieList[index].info.h}px`,lineHeight: `${mackieList[index].info.h}px`}"
     >双击输入内容...</div>
@@ -16,7 +16,7 @@
       v-else
       class="mk-text-input"
       :style="{width: `${mackieList[index].info.w}px`,height: `${mackieList[index].info.h}px`,color:`${mackieList[index].info.fc}`}"
-      v-model="mackieList[moduleIndex].info.tx"
+      v-model="mackieList[index].info.tx"
       @input="changeInfo"
     />
   </div>
@@ -32,14 +32,14 @@ export default {
   name: "MackieText",
   data() {
     return {
-      isInput: true,
       index: 0,
       text:''
     };
   },
-  computed: mapState(["moduleIndex", "mackieList"]),
+  computed: mapState(["moduleIndex", "mackieList",'isInput']),
   created() {
     this.index = this.$attrs["data-id"];
+    
     this.text = `mackie-text${this.index}`
   },
   mounted() {
@@ -73,7 +73,9 @@ export default {
   },
   methods: {
     input() {
-      this.isInput = false;
+      console.log('a')
+       this.$store.commit('changeValue',{...this.mackieList[this.index].info})
+      this.$store.commit("isShowInput", false);
     },
     showInfo() {
       this.$store.commit("isShowModule", true);
@@ -89,7 +91,8 @@ export default {
 
 <style scoped lang="scss">
 .mackie-text {
-  position: absolute;
+  height: 40px;
+  margin: 10px 10px 0 0;
   .mk-text-duoble {
     border: 1px dotted rgb(88, 116, 216);
     width: 150px;

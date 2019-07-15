@@ -6,7 +6,9 @@ const store = new Vuex.Store({
     mackieList: [],
     activeIndex: 0,
     moduleIndex: 0,
-    isAdd: false
+    isAdd: false,
+    isInput: true,
+    isImg: 0
   },
   mutations: {
     increment(state, n) {
@@ -45,6 +47,14 @@ const store = new Vuex.Store({
     isShowModule(state, n) {
       //是否展示模块
       state.isAdd = n;
+    },
+    isShowImg(state, n) {
+      //是否展示模块
+      Vue.set(state.mackieList[state.moduleIndex].info, "isImg", n);
+    },
+    isShowInput(state, n) {
+      //是否展示模块
+      Vue.set(state.mackieList[state.moduleIndex].info, "isInput", n);
     },
     changeLeft(state, left) {
       //模块位置

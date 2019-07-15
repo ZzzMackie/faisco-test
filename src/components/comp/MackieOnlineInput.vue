@@ -2,7 +2,7 @@
   <div
   class="mackie-online-input"
     :class="this.olineInput"
-    @click="showInfo"
+    @mousedown="showInfo"
     :style="{top: `${mackieList[index].info.t}px`, height: `${mackieList[index].info.h}px`,width: `${mackieList[index].info.w}px`,left:`${mackieList[index].info.l}px`,zIndex:`${mackieList[moduleIndex].info.z}`}"
   >
     <div class="mk-o-input-title">信息调查</div>
@@ -97,6 +97,7 @@ export default {
       this.$store.commit("isShowModule", true);
       this.$store.commit("setModuleIndex", this.$attrs["data-id"]);
       this.$store.commit("changeModuleTab", 1);
+      console.log(this.index,this.moduleIndex)
     },
     onSubmit() {
       const $_sexVal = $(".mk-o-input-form input:radio:checked").val();
@@ -130,9 +131,7 @@ export default {
 
 <style scoped lang="scss">
 .mackie-online-input {
-  position: absolute;
-  top: 0;
-  left: 0;
+  margin: 10px 10px 0 0;
   border: 1px dotted rgb(88, 116, 216);
   height: 350px;
   width: 200px;

@@ -2,14 +2,14 @@
   <div
     class="mackie-img"
     :class="this.img"
-    @click="showInfo"
-    :style="{top: `${mackieList[index].info.t}px`,left:`${mackieList[index].info.l}px`,zIndex:`${mackieList[index].info.z}`}"
+    @mousedown="showInfo"
+    :style="{top: `${mackieList[index].info.t}px`,left:`${mackieList[index].info.l}px`,zIndex:`${mackieList[index].info.z}`,width: `${mackieList[index].info.w}px`,height: `${mackieList[index].info.h}px`}"
   >
-    <div class="mk-add-img" v-if="isImg === 0" @dblclick="onImg">
+    <div class="mk-add-img" v-if="mackieList[index].info.isImg === 0" @dblclick="onImg">
       <div class="mk-add-img-icon"></div>
       <p>添加图片</p>
     </div>
-    <div class="mk-dialog-img" v-if="isImg === 1">
+    <div class="mk-dialog-img" v-if="mackieList[index].info.isImg === 1">
       <div class="mk-dialog-img-top">
         <p class="mk-dialog-img-top-text">设置图片模块</p>
         <div class="mk-dialog-img-top-close" @click="closeDialog"></div>
@@ -39,11 +39,10 @@
       <div class="mk-dialog-img-confrim" @click="showImg">确认</div>
     </div>
     <img
-      :src="url"
+      :src="mackieList[index].info.url"
       alt="我是图片哦"
-      v-show="isImg === 2"
+      v-show="mackieList[index].info.isImg === 2"
       id="mackie"
-      :style="{width: `${mackieList[index].info.w}px`,height: `${mackieList[index].info.h}px`}"
       @dblclick="onImg"
     />
   </div>
@@ -59,7 +58,6 @@ export default {
   name: "MackieImg",
   data() {
     return {
-      isImg: 0,
       url: null,
       index: 0,
       examplesList: [
@@ -69,7 +67,7 @@ export default {
       ]
     };
   },
-  computed: mapState(["moduleIndex", "mackieList"]),
+  computed: mapState(["moduleIndex", "mackieList", "isImg"]),
   created() {
     this.index = this.$attrs["data-id"];
     this.img = `mackie-img${this.index}`;
@@ -77,44 +75,53 @@ export default {
   mounted() {
     const self = this;
     $(`.mackie-img${this.index}`)
-    .resizable({
-      maxWidth: 500,
-      maxHeight: 500,
-      minWidth: 50,
-      minHeight: 50,
-      resize( event, ui ){
-        self.$store.commit('changeValue',{...self.mackieList[self.index].info})
-        self.$store.commit("changeWidth", ui.size.width);
-        self.$store.commit("changeHeight", ui.size.height);
-      }
-    })
-    .draggable({
-      zIndex: 100,
-      containment: "parent",
-      containment: ".mk-container-content",
-      cursor: "pointer",
-      opacity: 0.5,
-      drag: function(event, ui) {
-        self.$store.commit("changeValue", {
-          ...self.mackieList[self.index].info
-        });
-        self.$store.commit("changeLeft", ui.position.left);
-        self.$store.commit("changeTop", ui.position.top);
-      },
-      stop: function() {}
-    });
-    $(`.mackie-img${this.index}`)
-    
+      .resizable({
+        maxWidth: 500,
+        maxHeight: 500,
+        minWidth: 100,
+        minHeight: 100,
+        resize(event, ui) {
+          self.$store.commit("changeValue", {
+            ...self.mackieList[self.index].info
+          });
+          self.$store.commit("changeWidth", ui.size.width);
+          self.$store.commit("changeHeight", ui.size.height);
+        }
+      })
+      .draggable({
+        zIndex: 100,
+        containment: "parent",
+        containment: ".mk-container-content",
+        cursor: "pointer",
+        opacity: 0.5,
+        drag: function(event, ui) {
+          self.$store.commit("changeValue", {
+            ...self.mackieList[self.index].info
+          });
+          self.$store.commit("changeLeft", ui.position.left);
+          self.$store.commit("changeTop", ui.position.top);
+        },
+        stop: function() {}
+      });
   },
   methods: {
     onImg() {
-      this.isImg = 1;
+      this.$store.commit("changeValue", {
+        ...this.mackieList[this.index].info
+      });
+      this.$store.commit("isShowImg", 1);
     },
     closeDialog() {
-      this.isImg = 0;
+      this.$store.commit("changeValue", {
+        ...this.mackieList[this.index].info
+      });
+      this.$store.commit("isShowImg", 0);
     },
     showImg() {
-      this.isImg = 2;
+      this.$store.commit("isShowImg", 2);
+      this.$store.commit("changeValue", {
+        ...this.mackieList[this.index].info
+      });
       this.$store.commit("changeUrl", this.url);
     },
     showInfo() {
@@ -129,6 +136,7 @@ export default {
     },
     changeUrl(item) {
       this.url = item;
+      alert('已选中例图，按确认载入图片')
     },
     changeImg(el) {
       const img = el.target.files[0];
@@ -154,18 +162,20 @@ export default {
 $box: border-box;
 $border: 1px solid #ccc;
 #mackie {
-  width: 500px;
+  width: 100%;
+  height: 100%;
 }
 .mackie-img {
-  position: absolute;
-
+  // position: absolute;
+  height: 100px;
+  margin: 10px 10px 0 0;
   .mk-add-img {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     background: rgb(97, 127, 239);
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     color: #fff;
     .mk-add-img-icon {
       position: relative;
@@ -203,6 +213,7 @@ $border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 1px 1px 1px #ccc, -1px -1px 1px #ccc;
     box-sizing: $box;
+
     .mk-dialog-img-top {
       display: flex;
       justify-content: space-between;
@@ -288,9 +299,14 @@ $border: 1px solid #ccc;
         }
         .examples-img {
           width: 40px;
-          border-radius: 5px;
+          
           margin-right: 10px;
           cursor: pointer;
+          transition: all .2s;
+          &:hover {
+            border-radius: 5px;
+            transform: scale(1.2);
+          }
         }
         .img-content-right-href {
           margin-top: 20px;

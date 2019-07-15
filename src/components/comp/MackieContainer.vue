@@ -47,6 +47,11 @@ export default {
 <style scoped lang = "scss">
 .mackie-module-container {
   position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  width: 100%;
+  height: 100%;
   .mk-container-add-module {
     margin: 250px 150px;
     border: 1px dotted #ccc;
