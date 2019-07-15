@@ -45,6 +45,7 @@ import { mapState } from "vuex";
 import $ from "jquery";
 import "jquery-ui/ui/widgets/draggable";
 import "jquery-ui/ui/widgets/droppable";
+import "jquery-ui/ui/widgets/resizable";
 export default {
   name: "MackieOnlineInput",
   data() {
@@ -62,7 +63,19 @@ export default {
   },
   mounted() {
     const self = this;
-    $(`.mackie-online-input${this.index}`).draggable({
+    $(`.mackie-online-input${this.index}`)
+    .resizable({
+      maxWidth: 500,
+      maxHeight: 500,
+      minWidth: 200,
+      minHeight: 350,
+      resize( event, ui ){
+        self.$store.commit('changeValue',{...self.mackieList[self.index].info})
+        self.$store.commit("changeWidth", ui.size.width);
+        self.$store.commit("changeHeight", ui.size.height);
+      }
+    })
+    .draggable({
       zIndex: 100,
       containment: "parent",
       containment: ".mk-container-content",
@@ -126,7 +139,8 @@ export default {
   background: #fff;
   font-size: 12px;
   .mk-o-input-form {
-    margin-top: 10px;
+    margin: 10px auto 0;
+    width: 200px;
     text-align: left;
     padding-left: 10px;
     box-sizing: border-box;

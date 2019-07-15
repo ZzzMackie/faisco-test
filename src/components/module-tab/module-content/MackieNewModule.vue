@@ -90,7 +90,6 @@ export default {
           }
           self.flag = false;
         } else {
-          console.log('b',self.item)
           self.flag = false;
           self.$store.commit("increment", self.item);
         }

@@ -5,12 +5,17 @@
     @click="showInfo"
     :style="{top: `${mackieList[index].info.t}px`,left:`${mackieList[index].info.l}px`,zIndex:`${mackieList[index].info.z}`}"
   >
-    <div class="mk-text-duoble" v-if="isInput" @dblclick="input">双击输入内容...</div>
+    <div 
+    class="mk-text-duoble" 
+    v-if="isInput" 
+    @dblclick="input"
+    :style="{width: `${mackieList[index].info.w}px`,height: `${mackieList[index].info.h}px`,lineHeight: `${mackieList[index].info.h}px`}"
+    >双击输入内容...</div>
     <input
       type="text"
       v-else
       class="mk-text-input"
-      :style="{width: `${mackieList[index].info.w}px`,heigth: `${mackieList[index].info.h}px`,color:`${mackieList[index].info.fc}`}"
+      :style="{width: `${mackieList[index].info.w}px`,height: `${mackieList[index].info.h}px`,color:`${mackieList[index].info.fc}`}"
       v-model="mackieList[moduleIndex].info.tx"
       @input="changeInfo"
     />
@@ -22,6 +27,7 @@ import { mapState } from "vuex";
 import $ from "jquery";
 import "jquery-ui/ui/widgets/draggable";
 import "jquery-ui/ui/widgets/droppable";
+import "jquery-ui/ui/widgets/resizable";
 export default {
   name: "MackieText",
   data() {
@@ -38,7 +44,19 @@ export default {
   },
   mounted() {
     const self = this;
-    $(`.mackie-text${this.index}`).draggable({
+    $(`.mackie-text${this.index}`)
+    .resizable({
+      maxWidth: 500,
+      maxHeight: 500,
+      minWidth: 150,
+      minHeight: 40,
+      resize( event, ui ){
+        self.$store.commit('changeValue',{...self.mackieList[self.index].info})
+        self.$store.commit("changeWidth", ui.size.width);
+        self.$store.commit("changeHeight", ui.size.height);
+      }
+    })
+    .draggable({
       zIndex: 100,
       containment: "parent",
       containment: ".mk-container-content",
@@ -50,7 +68,6 @@ export default {
         self.$store.commit("changeTop", ui.position.top);
       },
       stop: function() {
-        console.log("拖拽结束");
       }
     });
   },

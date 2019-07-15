@@ -54,6 +54,14 @@ const store = new Vuex.Store({
       //模块位置
       state.mackieList[state.moduleIndex].info.t = top;
     },
+    changeWidth(state, w) {
+      //模块位置
+      state.mackieList[state.moduleIndex].info.w = w;
+    },
+    changeHeight(state, h) {
+      //模块位置
+      state.mackieList[state.moduleIndex].info.h = h;
+    },
     changeColor(state, color) {
       //模块颜色
       state.mackieList[state.moduleIndex].info.fc = color;
