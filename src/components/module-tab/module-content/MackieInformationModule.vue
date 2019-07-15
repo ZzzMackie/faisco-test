@@ -1,6 +1,7 @@
 <template>
   <div class="mackie-infomation" @click.stop="hideModuleInfo">
-    <div class="mk-info" v-show="mackieList.length !== 0">
+    <div class="mk-null" v-if="mackieList.length === 0">information is null</div>
+    <div class="mk-info" v-if="mackieList.length !== 0">
       <div class="mk-info-title">
         <span>模块信息</span>
         <span @click.stop="showModuleInfo">{{mackieList[moduleIndex].innerText + '模块'}}</span>
@@ -99,7 +100,6 @@
         </li>
       </ul>
     </div>
-    <div class="mk-null" v-show="mackieList.length === 0">null</div>
   </div>
 </template>
 
@@ -270,5 +270,17 @@ export default {
     height: 25px;
     vertical-align: middle;
   }
+}
+.mk-null {
+  border: 1px solid #ccc;
+  color: aqua;
+  width: 90%;
+  margin: 16px auto 0;
+  height: 50px;
+  box-sizing: border-box;
+  line-height: 50px;
+      padding: 0 20px;
+      border-radius: 5px;
+          font-size: 14px;
 }
 </style>

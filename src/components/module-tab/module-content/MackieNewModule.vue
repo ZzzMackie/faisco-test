@@ -12,10 +12,8 @@
             v-for="md in item.children"
             :class="md.className"
             :key="md.className"
-            @dblclick="renderModule(md)"
-            @mousedown.stop="addModule(md, $event)"
           >
-            <div class="module-icon icon"></div>
+            <div class="module-icon icon" @mousedown="addModule(md, $event)"></div>
             <span class="module-text">{{ md.innerText }}</span>
           </li>
         </ul>
@@ -25,7 +23,7 @@
 </template>
 
 <script>
-import { setTimeout, clearTimeout } from "timers";
+import $ from "jquery";
 export default {
   name: "MackieNewModuleme",
   props: {
@@ -35,7 +33,8 @@ export default {
   },
   data() {
     return {
-      flag: false
+      flag: false,
+      timer: null
     };
   },
   methods: {
@@ -56,23 +55,9 @@ export default {
       this.disY = this.nowY - this.oY;
       this.$div.style.top = `${this.nowY}px`;
       this.$div.style.left = `${this.nowX}px`;
+      this.flag = true;
     },
-    renderModule(item) {
-      debugger;
-      this.$store.commit("increment", { ...item });
-    },
-    debounce(func, wait) {
-      //防抖
-      let timer = null;
-      return function(...args) {
-        if (!timer) {
-          func.apply(null, args);
-          timer = setTimeout(function() {
-            timer = null;
-          }, wait);
-        }
-      };
-    },
+
     addModule(item, e) {
       const self = this;
       this.item = { ...item };
@@ -81,29 +66,36 @@ export default {
       this.offsetX = e.offsetX;
       this.offsetY = e.offsetY;
 
-      this.timer = setTimeout(function() {
-        self.$div = document.createElement("div");
-        self.$div.style.width = "50px";
-        self.$div.style.height = "50px";
-        self.$div.style.background = "red";
-        self.$div.style.position = "fixed";
-        self.$div.style.zIndex = "99";
-        e.target.appendChild(self.$div);
-      }, 1000);
-
-      document.addEventListener("mousemove", this.move);
-      e.target.addEventListener("mouseup", function() {
-        if (
-          self.nowX >= self.containerX &&
-          self.nowY >= self.containerY &&
-          self.disX !== undefined && self.$div
-        ) {
+      this.$div = document.createElement("div");
+      this.$div.style.width = "50px";
+      this.$div.style.height = "50px";
+      this.$div.style.background = "red";
+      this.$div.style.position = "fixed";
+      this.$div.style.zIndex = "99";
+      e.target.appendChild(this.$div);
+      $(document).on('mousemove',this.move).on('mouseup', function() {
+          $(this).unbind('mousemove').unbind('mouseup');
+         
+        
+        self.$div.remove();
+        if (self.flag) {
+          if (
+            self.nowX >= self.containerX &&
+            self.nowY >= self.containerY &&
+            self.disX !== undefined &&
+            self.$div
+          ) {
+            console.log('a')
+            self.$store.commit("increment", self.item);
+          }
+          self.flag = false;
+        } else {
+          console.log('b',self.item)
+          self.flag = false;
           self.$store.commit("increment", self.item);
         }
-        clearTimeout(self.timer)
-        self.$div.remove();
-        document.removeEventListener("mousemove", self.move);
-      });
+      })
+      
     }
   }
 };

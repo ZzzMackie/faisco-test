@@ -80,9 +80,9 @@ export default {
         console.log(1)
       }
     });
-    $(`.mackie-img${this.index}`).resizable({
-      animate: true
-    });
+    // $(`.mackie-img${this.index}`).resizable({
+    //   animate: true
+    // });
   },
   methods: {
     onImg() {
